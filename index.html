@@ -2,391 +2,404 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suliyman Cyber Security Intelligence | Command Center</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Suliyman Intelligence | OS v2.1</title>
     <style>
         :root {
-            --bg-dark: #020305;
-            --panel-bg: rgba(13, 17, 23, 0.8);
+            --bg-black: #050505;
+            --card-bg: #121418;
             --accent: #00f2ff;
-            --accent-glow: rgba(0, 242, 255, 0.4);
-            --text-main: #e6edf3;
-            --text-dim: #8b949e;
+            --accent-glow: rgba(0, 242, 255, 0.3);
+            --text-main: #ffffff;
+            --text-dim: #a0a0a0;
             --danger: #ff4d4d;
-            --success: #2ecc71;
-            --glass-border: rgba(0, 242, 255, 0.2);
+            --success: #00ff88;
             --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             --font-mono: 'Fira Code', 'Courier New', monospace;
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
-            background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(circle at 50% 50%, #0a192f 0%, #020305 100%),
-                linear-gradient(rgba(0, 242, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 242, 255, 0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 30px 30px, 30px 30px;
+            background-color: var(--bg-black);
             color: var(--text-main);
             font-family: var(--font-main);
             margin: 0;
+            padding: 0;
             height: 100vh;
+            width: 100vw;
             overflow: hidden;
             display: flex;
+            justify-content: center;
         }
 
-        /* --- SIDEBAR NAVIGATION --- */
-        nav {
-            width: 260px;
-            background: rgba(0, 0, 0, 0.6);
-            border-right: 1px solid var(--glass-border);
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            backdrop-filter: blur(10px);
-            z-index: 100;
-        }
-
-        .brand {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .brand h2 {
-            color: var(--accent);
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin: 0;
-            text-shadow: 0 0 10px var(--accent-glow);
-        }
-
-        .brand p {
-            font-size: 0.6rem;
-            color: var(--text-dim);
-            margin-top: 5px;
-        }
-
-        .menu-item {
-            padding: 12px 15px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            color: var(--text-dim);
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            font-size: 0.9rem;
-            border: 1px solid transparent;
-        }
-
-        .menu-item:hover, .menu-item.active {
-            color: var(--accent);
-            background: rgba(0, 242, 255, 0.1);
-            border-color: var(--glass-border);
-            box-shadow: 0 0 15px rgba(0, 242, 255, 0.1);
-        }
-
-        /* --- MAIN CONTENT AREA --- */
-        main {
-            flex: 1;
+        /* Mobile Container */
+        #phone-shell {
+            width: 100%;
+            max-width: 450px;
+            height: 100%;
+            background: var(--bg-black);
             position: relative;
             display: flex;
             flex-direction: column;
-            padding: 30px;
-            overflow-y: auto;
+            border-left: 1px solid #222;
+            border-right: 1px solid #222;
+            overflow: hidden;
         }
 
+        /* --- SETUP SCREEN --- */
         #setup-screen {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-dark);
+            background: var(--bg-black);
             z-index: 1000;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
-            transition: 0.5s;
-        }
-
-        .login-box {
-            background: var(--panel-bg);
-            padding: 40px;
-            border: 1px solid var(--accent);
-            border-radius: 15px;
+            padding: 20px;
             text-align: center;
-            box-shadow: 0 0 50px rgba(0, 242, 255, 0.2);
-            backdrop-filter: blur(20px);
         }
 
-        .login-box h1 { color: var(--accent); margin-bottom: 20px; font-weight: 300; }
+        .login-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border: 1px solid var(--accent);
+            border-radius: 20px;
+            box-shadow: 0 0 30px var(--accent-glow);
+            width: 100%;
+        }
 
+        .login-card h1 { color: var(--accent); font-size: 1.5rem; margin-bottom: 10px; }
         .input-field {
-            background: rgba(0,0,0,0.5);
+            width: 100%;
+            background: #000;
             border: 1px solid var(--accent);
             color: var(--accent);
             padding: 15px;
             font-family: var(--font-mono);
             font-size: 1.2rem;
-            width: 300px;
             text-align: center;
-            margin-bottom: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
             outline: none;
-            border-radius: 5px;
         }
 
-        .btn-execute {
+        .btn-main {
             background: var(--accent);
             color: #000;
             border: none;
-            padding: 15px 40px;
+            padding: 15px 30px;
             font-weight: bold;
-            text-transform: uppercase;
+            border-radius: 10px;
             cursor: pointer;
-            border-radius: 5px;
-            transition: 0.3s;
+            width: 100%;
+            text-transform: uppercase;
         }
 
-        .btn-execute:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--accent); }
-
-        /* --- DASHBOARD GRID --- */
-        .dashboard {
-            display: none;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: auto auto auto;
-            gap: 20px;
-            animation: slideUp 0.8s ease-out;
-        }
-
-        .card {
-            background: var(--panel-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
+        /* --- APP NAVIGATION --- */
+        header {
             padding: 20px;
-            backdrop-filter: blur(10px);
+            background: var(--card-bg);
+            border-bottom: 1px solid #222;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .brand-name { color: var(--accent); font-weight: bold; font-size: 1.1rem; }
+
+        /* --- VIEW MANAGEMENT --- */
+        .view {
+            position: absolute;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 70px);
+            padding: 20px;
+            display: none;
+            overflow-y: auto;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .view.active { display: block; }
+
+        @keyframes slideIn {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* --- DASHBOARD CARDS --- */
+        .card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #222;
             transition: 0.3s;
         }
 
-        .card:hover { border-color: var(--accent); box-shadow: 0 0 15px var(--accent-glow); }
+        .card:active { transform: scale(0.98); background: #1a1d23; }
 
         .card-title {
             color: var(--accent);
             font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
             margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
-            border-bottom: 1px solid var(--glass-border);
-            padding-bottom: 5px;
+            font-weight: bold;
         }
 
-        /* --- SPECIFIC MODULES --- */
-        .profile-card { grid-column: span 1; grid-row: span 2; }
-        .map-card { grid-column: span 2; height: 300px; position: relative; overflow: hidden; }
-        .comms-card { grid-column: span 1; height: 300px; overflow-y: auto; }
-        .network-card { grid-column: span 2; }
+        .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background: #222;
+            border: 3px solid var(--accent);
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
 
         .data-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 12px;
-            font-size: 0.9rem;
-        }
-
-        .data-label { color: var(--text-dim); }
-        .data-value { color: var(--text-main); font-weight: 500; }
-
-        .chat-msg {
-            background: rgba(255,255,255,0.05);
-            padding: 8px 12px;
-            border-radius: 8px;
             margin-bottom: 10px;
-            font-size: 0.8rem;
-            border-left: 2px solid var(--accent);
+            font-size: 0.9rem;
+            border-bottom: 1px solid #222;
+            padding-bottom: 5px;
         }
 
-        .chat-sender { font-size: 0.6rem; color: var(--accent); text-transform: uppercase; margin-bottom: 3px; }
+        .label { color: var(--text-dim); }
+        .value { color: var(--text-main); font-weight: 500; }
 
-        .map-sim {
-            width: 100%;
-            height: 100%;
-            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/World_map_blank.svg/1200px-World_map_blank.svg.png');
-            background-size: cover;
-            background-position: center;
-            filter: invert(1) hue-rotate(180deg) brightness(0.5);
-            position: relative;
+        /* --- MODULES --- */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
         }
 
-        .map-pin {
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            background: var(--danger);
-            border-radius: 50%;
-            box-shadow: 0 0 15px var(--danger);
-            animation: pulse 1.5s infinite;
+        .menu-btn {
+            background: var(--card-bg);
+            border: 1px solid #333;
+            padding: 20px;
+            border-radius: 15px;
+            color: var(--text-main);
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
-        .family-member {
+        .menu-btn:active { border-color: var(--accent); background: #1a1d23; }
+        .menu-btn span { display: block; font-size: 1.5rem; margin-bottom: 10px; }
+        .menu-btn label { font-size: 0.8rem; font-weight: bold; }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 5px;
+        }
+
+        .log-item {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
             padding: 10px;
+            border-bottom: 1px solid #222;
+            color: #aaa;
+        }
+
+        .log-time { color: var(--accent); margin-right: 10px; }
+
+        .call-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
             background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .call-info h4 { margin: 0; font-size: 0.9rem; }
+        .call-info p { margin: 0; font-size: 0.7rem; color: var(--text-dim); }
+
+        .status-pill {
+            padding: 3px 8px;
             border-radius: 5px;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            font-weight: bold;
         }
 
-        .member-dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; }
+        .pill-in { background: var(--success); color: #000; }
+        .pill-out { background: var(--accent); color: #000; }
+        .pill-missed { background: var(--danger); color: #fff; }
 
-        /* --- ANIMATIONS --- */
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(3); opacity: 0; }
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        #terminal-overlay {
-            position: fixed;
+        /* --- TERMINAL OVERLAY --- */
+        #term-overlay {
+            position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
+            background: #000;
             z-index: 2000;
             display: none;
-            justify-content: center;
-            align-items: center;
-            font-family: var(--font-mono);
-        }
-
-        .term-box {
-            width: 600px;
-            height: 400px;
-            background: #000;
-            border: 1px solid var(--accent);
             padding: 20px;
-            overflow-y: auto;
+            font-family: var(--font-mono);
             color: var(--accent);
-            box-shadow: 0 0 30px var(--accent-glow);
+            font-size: 0.8rem;
+            overflow-y: auto;
         }
-
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="brand">
-            <h2>Suliyman Intel</h2>
-            <p>Cyber Security Intelligence</p>
-        </div>
-        <div class="menu-item active">Dashboard</div>
-        <div class="menu-item">Signal Intercept</div>
-        <div class="menu-item">Network Mapping</div>
-        <div class="menu-item">Device Logs</div>
-        <div class="menu-item">Cloud Mirrors</div>
-        <div class="menu-item" style="margin-top: auto; color: var(--danger);">Terminate Session</div>
-    </nav>
-
-    <main>
+    <div id="phone-shell">
+        <!-- Setup -->
         <div id="setup-screen">
-            <div class="login-box">
-                <h1>SULIYMAN INTELLIGENCE</h1>
-                <p style="color: var(--text-dim); margin-bottom: 20px;">Enter Target Identifier to begin extraction</p>
-                <input type="number" id="target-id" class="input-field" placeholder="00000000">
-                <br>
-                <button class="btn-execute" onclick="initiate()">Execute Intercept</button>
+            <div class="login-card">
+                <h1>SULIYMAN INTEL</h1>
+                <p style="color: var(--text-dim); font-size: 0.8rem;">Secure Access Gateway</p>
+                <input type="number" id="target-id" class="input-field" placeholder="Enter Target ID">
+                <button class="btn-main" onclick="startIntercept()">Execute Scan</button>
             </div>
         </div>
 
-        <div class="dashboard" id="main-dash">
-            <!-- Profile -->
-            <div class="card profile-card">
-                <div class="card-title">Target Profile <span>ID: <span id="res-id"></span></span></div>
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <div style="width: 80px; height: 80px; background: #222; border: 2px solid var(--accent); border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 2rem;">👤</div>
-                    <h3 id="res-name" style="margin: 10px 0 5px 0;">Name</h3>
-                    <p id="res-risk" style="font-size: 0.8rem; margin: 0;"></p>
-                </div>
-                <div class="data-row"><span class="data-label">Home Address</span><span class="data-value" id="res-addr"></span></div>
-                <div class="data-row"><span class="data-label">IP Address</span><span class="data-value" id="res-ip"></span></div>
-                <div class="data-row"><span class="data-label">Device OS</span><span class="data-value" id="res-os"></span></div>
-                <div class="data-row"><span class="data-label">Last Seen</span><span class="data-value">2 mins ago</span></div>
+        <!-- Header -->
+        <header>
+            <div class="brand-name">SULIYMAN OS</div>
+            <div id="header-status" style="font-size: 0.7rem; color: var(--success);">● SYSTEM ACTIVE</div>
+        </header>
+
+        <!-- View: Dashboard -->
+        <div id="view-dash" class="view active">
+            <div class="profile-header">
+                <div class="avatar" id="avatar">👤</div>
+                <h2 id="name-display" style="margin: 0;">Target Name</h2>
+                <p id="risk-display" style="font-size: 0.8rem; margin: 5px 0;"></p>
             </div>
 
-            <!-- Map -->
-            <div class="card map-card">
-                <div class="card-title">Live Geo-Location <span>SATELLITE LINK ACTIVE</span></div>
-                <div class="map-sim">
-                    <div class="map-pin" id="map-pin"></div>
-                </div>
-            </div>
-
-            <!-- Comms -->
-            <div class="card comms-card">
-                <div class="card-title">Intercepted Comms <span>LIVE FEED</span></div>
-                <div id="chat-feed"></div>
-            </div>
-
-            <!-- Network -->
-            <div class="card network-card">
-                <div class="card-title">Family & Social Network <span>RELATIONSHIP MAP</span></div>
-                <div id="network-feed" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"></div>
-            </div>
-
-            <!-- Calls -->
             <div class="card">
-                <div class="card-title">Recent Call Logs <span>GSM INTERCEPT</span></div>
-                <div id="call-feed"></div>
+                <div class="card-title">Core Identity</div>
+                <div class="data-row"><span class="label">ID</span><span class="value" id="val-id"></span></div>
+                <div class="data-row"><span class="label">Address</span><span class="value" id="val-addr"></span></div>
+                <div class="data-row"><span class="label">IP Address</span><span class="value" id="val-ip"></span></div>
+                <div class="data-row"><span class="label">Device</span><span class="value" id="val-os"></span></div>
+            </div>
+
+            <div class="menu-grid">
+                <div class="menu-btn" onclick="openView('view-comms')">
+                    <span>💬</span><label>Communications</label>
+                </div>
+                <div class="menu-btn" onclick="openView('view-logs')">
+                    <span>⚙️</span><label>Device Logs</label>
+                </div>
+                <div class="menu-btn" onclick="openView('view-net')">
+                    <span>🌐</span><label>Networking</label>
+                </div>
+                <div class="menu-btn" onclick="openView('view-loc')">
+                    <span>📍</span><label>Location</label>
+                </div>
             </div>
         </div>
-    </main>
 
-    <div id="terminal-overlay">
-        <div class="term-box" id="term-content"></div>
+        <!-- View: Communications -->
+        <div id="view-comms" class="view">
+            <button class="back-btn" onclick="openView('view-dash')">← Back to Dashboard</button>
+            <div class="card">
+                <div class="card-title">Recent Call Logs <span style="color: var(--success)">LIVE</span></div>
+                <div id="call-list"></div>
+            </div>
+            <div class="card">
+                <div class="card-title">Intercepted Messages</div>
+                <div id="msg-list"></div>
+            </div>
+        </div>
+
+        <!-- View: Device Logs -->
+        <div id="view-logs" class="view">
+            <button class="back-btn" onclick="openView('view-dash')">← Back to Dashboard</button>
+            <div class="card">
+                <div class="card-title">System Kernel Logs</div>
+                <div id="sys-logs" style="max-height: 400px; overflow-y: auto;"></div>
+            </div>
+            <div class="card">
+                <div class="card-title">App Usage Statistics</div>
+                <div id="app-logs"></div>
+            </div>
+        </div>
+
+        <!-- View: Networking -->
+        <div id="view-net" class="view">
+            <button class="back-btn" onclick="openView('view-dash')">← Back to Dashboard</button>
+            <div class="card">
+                <div class="card-title">Linked Social Accounts</div>
+                <div id="social-list"></div>
+            </div>
+            <div class="card">
+                <div class="card-title">Family & Network Graph</div>
+                <div id="family-list"></div>
+            </div>
+        </div>
+
+        <!-- View: Location -->
+        <div id="view-loc" class="view">
+            <button class="back-btn" onclick="openView('view-dash')">← Back to Dashboard</button>
+            <div class="card" style="text-align: center;">
+                <div class="card-title">Live Satellite Feed</div>
+                <div style="width: 100%; height: 200px; background: #000; border: 1px solid var(--accent); border-radius: 10px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+                    <div style="position: absolute; width: 100%; height: 100%; background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/World_map_blank.svg/1200px-World_map_blank.svg.png'); background-size: cover; filter: invert(1) opacity(0.3);"></div>
+                    <div style="z-index: 1; color: var(--accent); font-size: 0.7rem; text-align: center;">
+                        <div style="width: 10px; height: 10px; background: var(--danger); border-radius: 50%; margin: 0 auto 10px; box-shadow: 0 0 10px var(--danger); animation: pulse 1s infinite;"></div>
+                        SATELLITE LOCK: ACTIVE<br>COORD: <span id="coord-val"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">Recent Location History</div>
+                <div id="loc-history"></div>
+            </div>
+        </div>
+
+        <!-- Terminal Overlay -->
+        <div id="term-overlay"></div>
     </div>
 
     <script>
         const names = ["Alexander Sterling", "Julian Thorne", "Marcus Vane", "Sienna Brooks", "Dominic Cross", "Elena Vance", "Adrian Thorne", "Cassian Drake"];
         const addresses = ["124 Maple St, New York, NY", "88 Baker St, London, UK", "45 Rue de Rivoli, Paris, FR", "101 Sakura Ave, Tokyo, JP", "22 Ocean Dr, Miami, FL", "77 King's Rd, Toronto, CA"];
         const os_list = ["iOS 17.4 (iPhone 15 Pro)", "Android 14 (Samsung S24)", "macOS Sonoma", "Windows 11 Pro", "Kali Linux 2024.1"];
-        const family = ["Mother (Verified)", "Father (Verified)", "Sibling (Linked)", "Spouse (Linked)", "Business Partner (High Risk)"];
-        
-        const chat_data = [
-            { app: "WhatsApp", sender: "Unknown", text: "The package is delivered. Confirm receipt." },
-            { app: "SMS", sender: "Bank", text: "Your OTP for transfer $4,500 is 882109." },
-            { app: "Facebook", sender: "Contact X", text: "Are we still meeting at the usual spot?" },
-            { app: "WhatsApp", sender: "Target", text: "Yes, I'll be there in 10 minutes." },
-            { app: "SMS", sender: "Unknown", text: "I have the documents. Where do I send them?" }
-        ];
+        const socials = ["Instagram", "Facebook", "LinkedIn", "X (Twitter)", "Snapchat", "Telegram", "Discord"];
+        const family = ["Mother", "Father", "Brother", "Sister", "Spouse", "Business Partner"];
 
-        const call_data = [
-            { num: "+1 (555) 012-8843", duration: "4m 12s", type: "Incoming" },
-            { num: "+44 20 7946 0958", duration: "12m 05s", type: "Outgoing" },
-            { num: "+1 (555) 990-1122", duration: "1m 45s", type: "Missed" }
-        ];
-
-        function initiate() {
+        function startIntercept() {
             const id = document.getElementById('target-id').value;
             if(!id) return alert("Target ID Required");
 
-            document.getElementById('setup-screen').style.opacity = '0';
-            setTimeout(() => document.getElementById('setup-screen').style.display = 'none', 500);
-            
-            const overlay = document.getElementById('terminal-overlay');
-            const content = document.getElementById('term-content');
-            overlay.style.display = 'flex';
+            document.getElementById('setup-screen').style.display = 'none';
+            const term = document.getElementById('term-overlay');
+            term.style.display = 'block';
 
             const logs = [
-                "Initializing Suliyman Intelligence Core...",
-                "Establishing encrypted tunnel to Node-7...",
-                "Bypassing target firewall...",
-                "Injecting signal interceptor...",
-                "Dumping PII database...",
-                "Reconstructing social graph...",
-                "Decrypting WhatsApp/SMS archives...",
+                "Connecting to Suliyman Intelligence Core...",
+                "Bypassing Target Firewall...",
+                "Intercepting GSM Signal...",
+                "Dumping PII Database...",
+                "Reconstructing Social Graph...",
                 "SATELLITE LOCK ACQUIRED.",
                 "EXTRACTION COMPLETE."
             ];
@@ -394,76 +407,109 @@
             let i = 0;
             const interval = setInterval(() => {
                 if(i < logs.length) {
-                    content.innerHTML += `<div>> ${logs[i]}</div>`;
-                    content.scrollTop = content.scrollHeight;
+                    term.innerHTML += `<div style="margin-bottom:10px">> ${logs[i]}</div>`;
+                    term.scrollTop = term.scrollHeight;
                     i++;
                 } else {
                     clearInterval(interval);
                     setTimeout(() => {
-                        overlay.style.display = 'none';
-                        renderDashboard(id);
+                        term.style.display = 'none';
+                        renderAll(id);
                     }, 1000);
                 }
-            }, 400);
+            }, 500);
         }
 
-        function renderDashboard(id) {
-            document.getElementById('main-dash').style.display = 'grid';
+        function openView(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+        }
+
+        function renderAll(id) {
             const seed = parseInt(id);
+            openView('view-dash');
 
             // Profile
-            document.getElementById('res-id').innerText = id;
-            document.getElementById('res-name').innerText = names[seed % names.length];
-            document.getElementById('res-addr').innerText = addresses[seed % addresses.length];
-            document.getElementById('res-ip').innerText = `192.168.${seed % 255}.${seed % 255}`;
-            document.getElementById('res-os').innerText = os_list[seed % os_list.length];
+            document.getElementById('name-display').innerText = names[seed % names.length];
+            document.getElementById('val-id').innerText = id;
+            document.getElementById('val-addr').innerText = addresses[seed % addresses.length];
+            document.getElementById('val-ip').innerText = `192.168.${seed % 255}.${seed % 255}`;
+            document.getElementById('val-os').innerText = os_list[seed % os_list.length];
             
             const risk = seed % 100;
-            const riskEl = document.getElementById('res-risk');
+            const riskEl = document.getElementById('risk-display');
             riskEl.innerText = `Risk Score: ${risk}/100`;
             riskEl.style.color = risk > 70 ? 'var(--danger)' : (risk > 40 ? '#ffcc00' : 'var(--success)');
-
-            // Map Pin
-            const pin = document.getElementById('map-pin');
-            pin.style.top = (20 + (seed % 60)) + '%';
-            pin.style.left = (10 + (seed % 80)) + '%';
+            document.getElementById('avatar').innerText = ["👨", "👩", "🧑", "🧔", "👱"][seed % 5];
 
             // Comms
-            const chatFeed = document.getElementById('chat-feed');
-            chatFeed.innerHTML = '';
-            chat_data.forEach(msg => {
-                chatFeed.innerHTML += `
-                    <div class="chat-msg">
-                        <div class="chat-sender">${msg.app} | ${msg.sender}</div>
-                        <div>${msg.text}</div>
+            const callList = document.getElementById('call-list');
+            callList.innerHTML = '';
+            for(let i=0; i<5; i++) {
+                const type = i % 3 === 0 ? 'Incoming' : (i % 3 === 1 ? 'Outgoing' : 'Missed');
+                const pill = type === 'Incoming' ? 'pill-in' : (type === 'Outgoing' ? 'pill-out' : 'pill-missed');
+                callList.innerHTML += `
+                    <div class="call-item">
+                        <div class="call-info">
+                            <h4>+1 (555) ${100 + (seed % 900)}-${1000 + (i * 123)}</h4>
+                            <p>Duration: ${Math.floor(Math.random()*10)}m ${Math.floor(Math.random()*60)}s</p>
+                        </div>
+                        <span class="status-pill ${pill}">${type}</span>
                     </div>
                 `;
+            }
+
+            const msgList = document.getElementById('msg-list');
+            msgList.innerHTML = '';
+            const msgs = [
+                {app: "WhatsApp", text: "The files are moved to the vault."},
+                {app: "SMS", text: "Your OTP is 449201."},
+                {app: "FB", text: "Meeting at 10 PM tonight."}
+            ];
+            msgs.forEach(m => {
+                msgList.innerHTML += `<div class="chat-msg" style="margin-bottom:10px; padding:10px; background:#1a1a1a; border-radius:10px; font-size:0.8rem;">
+                    <span style="color:var(--accent); font-size:0.6rem;">${m.app}</span><br>${m.text}</div>`;
             });
 
-            // Network
-            const netFeed = document.getElementById('network-feed');
-            netFeed.innerHTML = '';
-            family.forEach(member => {
-                netFeed.innerHTML += `
-                    <div class="family-member">
-                        <div class="member-dot"></div>
-                        <div style="font-size: 0.8rem;">${member}</div>
-                    </div>
-                `;
+            // Logs
+            const sysLogs = document.getElementById('sys-logs');
+            sysLogs.innerHTML = '';
+            for(let i=0; i<20; i++) {
+                sysLogs.innerHTML += `<div class="log-item"><span class="log-time">${new Date().toLocaleTimeString()}</span> kernel_task[${seed+i}]: memory_leak_detected at 0x${(seed*i).toString(16)}</div>`;
+            }
+
+            // Networking
+            const socialList = document.getElementById('social-list');
+            socialList.innerHTML = '';
+            socials.forEach(s => {
+                socialList.innerHTML += `<div class="data-row"><span class="label">${s}</span><span class="value" style="color:var(--success)">Linked ✓</span></div>`;
             });
 
-            // Calls
-            const callFeed = document.getElementById('call-feed');
-            callFeed.innerHTML = '';
-            call_data.forEach(call => {
-                callFeed.innerHTML += `
-                    <div class="data-row">
-                        <span class="data-value" style="font-size:0.8rem">${call.num}</span>
-                        <span class="data-label" style="font-size:0.7rem">${call.type} - ${call.duration}</span>
-                    </div>
-                `;
+            const famList = document.getElementById('family-list');
+            famList.innerHTML = '';
+            family.forEach(f => {
+                famList.innerHTML += `<div class="family-member" style="display:flex; align-items:center; gap:10px; margin-bottom:10px; padding:10px; background:rgba(255,255,255,0.05); border-radius:10px; font-size:0.8rem;">
+                    <div style="width:8px; height:8px; background:var(--success); border-radius:50%;"></div> ${f}</div>`;
             });
+
+            // Location
+            document.getElementById('coord-val').innerText = `${(seed/100).toFixed(4)}N, ${(seed/200).toFixed(4)}W`;
+            const locHist = document.getElementById('loc-history');
+            locHist.innerHTML = '';
+            for(let i=0; i<5; i++) {
+                locHist.innerHTML += `<div class="data-row"><span class="label">Point ${i+1}</span><span class="value">${addresses[i % addresses.length]}</span></div>`;
+            }
+        }
+
+        function pulse() {
+            // Animation handled by CSS
         }
     </script>
+    <style>
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+    </style>
 </body>
 </html>
