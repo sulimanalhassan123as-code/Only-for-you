@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligence Portal | Data Extraction Tool</title>
+    <style>
+        :root {
+            --bg-color: #0a0b0c;
+            --panel-color: #14161a;
+            --accent-color: #00ffcc;
+            --text-color: #e0e0e0;
+            --dim-text: #888;
+            --error-color: #ff4444;
+            --font-mono: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-mono);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        #app {
+            width: 90%;
+            max-width: 800px;
+            background: var(--panel-color);
+            border: 1px solid var(--accent-color);
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
+            padding: 2rem;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--accent-color);
+            padding-bottom: 1rem;
+        }
+
+        .header h1 {
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .header p {
+            font-size: 0.8rem;
+            color: var(--dim-text);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        input {
+            background: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 10px;
+            font-family: var(--font-mono);
+            width: 200px;
+            outline: none;
+            text-align: center;
+        }
+
+        button {
+            background: var(--accent-color);
+            color: var(--bg-color);
+            border: none;
+            padding: 10px 20px;
+            font-family: var(--font-mono);
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #00cca3;
+            box-shadow: 0 0 10px var(--accent-color);
+        }
+
+        #terminal {
+            background: #000;
+            border: 1px solid #333;
+            padding: 1rem;
+            height: 300px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            display: none;
+            margin-bottom: 1rem;
+        }
+
+        .log-entry { margin-bottom: 5px; }
+        .log-success { color: var(--accent-color); }
+        .log-info { color: #aaa; }
+        .log-warn { color: #ffcc00; }
+
+        #progress-container {
+            display: none;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #222;
+            border: 1px solid var(--accent-color);
+            position: relative;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--accent-color);
+            transition: width 0.1s;
+        }
+
+        #result-page {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 1rem;
+        }
+
+        .result-item {
+            border-left: 2px solid var(--accent-color);
+            padding-left: 10px;
+            margin-bottom: 15px;
+        }
+
+        .label {
+            color: var(--dim-text);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            display: block;
+        }
+
+        .value {
+            font-size: 1.1rem;
+            color: var(--text-color);
+        }
+
+        .risk-high { color: var(--error-color); font-weight: bold; }
+        .risk-med { color: #ffcc00; font-weight: bold; }
+        .risk-low { color: var(--accent-color); font-weight: bold; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: var(--accent-color); }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <div class="header">
+        <h1>Intelligence Portal</h1>
+        <p>Secure Data Extraction Interface v4.0.2</p>
+    </div>
+
+    <div id="setup-view">
+        <div class="input-group">
+            <input type="number" id="target-id" placeholder="Enter Target ID...">
+            <button onclick="startExtraction()">Extract</button>
+        </div>
+    </div>
+
+    <div id="progress-container">
+        <div class="progress-bar"><div class="progress-fill" id="fill"></div></div>
+    </div>
+
+    <div id="terminal"></div>
+
+    <div id="result-page">
+        <div class="header" style="border-bottom: 1px solid #333; margin-bottom: 1rem;">
+            <h2 style="color: var(--accent-color); font-size: 1.2rem;">Extraction Complete</h2>
+        </div>
+        <div class="result-grid" id="data-output">
+            <!-- Data injected here -->
+        </div>
+        <div style="text-align: center; margin-top: 2rem;">
+            <button onclick="resetPortal()">New Extraction</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const logs = [
+        { text: "Initializing secure handshake...", type: "info" },
+        { text: "Connecting to node-cluster-04...", type: "info" },
+        { text: "Bypassing firewall layer 1...", type: "warn" },
+        { text: "Injecting SQL payload...", type: "info" },
+        { text: "Access granted to encrypted volume...", type: "success" },
+        { text: "Fetching records from database...", type: "info" },
+        { text: "Decrypting PII data...", type: "info" },
+        { text: "Cleaning artifacts...", type: "warn" },
+        { text: "Extraction successful.", type: "success" }
+    ];
+
+    const names = ["Jameson Thorne", "Elena Vance", "Marcus Sterling", "Sarah Connor", "Julian Drax", "Amara Okafor", "Leo Castellan", "Sienna Brooks"];
+    const locations = ["New York, USA", "London, UK", "Berlin, Germany", "Tokyo, Japan", "Singapore", "Toronto, Canada", "Sydney, Australia", "Seoul, South Korea"];
+    const os = ["Windows 11 Pro", "macOS Sonoma", "Ubuntu 22.04 LTS", "Kali Linux", "Android 14", "iOS 17.2"];
+
+    function startExtraction() {
+        const id = document.getElementById('target-id').value;
+        if (!id) {
+            alert("Please enter a Target ID");
+            return;
+        }
+
+        document.getElementById('setup-view').style.display = 'none';
+        document.getElementById('terminal').style.display = 'block';
+        document.getElementById('progress-container').style.display = 'block';
+
+        let currentLog = 0;
+        let progress = 0;
+        const fill = document.getElementById('fill');
+        const term = document.getElementById('terminal');
+
+        const interval = setInterval(() => {
+            if (currentLog < logs.length) {
+                const entry = document.createElement('div');
+                entry.className = `log-entry log-${logs[currentLog].type}`;
+                entry.innerText = `[${new Date().toLocaleTimeString()}] ${logs[currentLog].text}`;
+                term.appendChild(entry);
+                term.scrollTop = term.scrollHeight;
+                
+                progress += (100 / logs.length);
+                fill.style.width = progress + '%';
+                currentLog++;
+            } else {
+                clearInterval(interval);
+                setTimeout(showResults, 500);
+            }
+        }, 600);
+    }
+
+    function showResults() {
+        const id = document.getElementById('target-id').value;
+        document.getElementById('terminal').style.display = 'none';
+        document.getElementById('progress-container').style.display = 'none';
+        document.getElementById('result-page').style.display = 'block';
+
+        // Deterministic fake data based on the input number
+        const seed = parseInt(id);
+        const name = names[seed % names.length];
+        const loc = locations[seed % locations.length];
+        const system = os[seed % os.length];
+        const riskScore = (seed % 100);
+        let riskClass = 'risk-low';
+        if (riskScore > 70) riskClass = 'risk-high';
+        else if (riskScore > 40) riskClass = 'risk-med';
+
+        const output = document.getElementById('data-output');
+        output.innerHTML = `
+            <div class="result-item"><span class="label">User ID</span><span class="value">#${id}</span></div>
+            <div class="result-item"><span class="label">Full Name</span><span class="value">${name}</span></div>
+            <div class="result-item"><span class="label">IP Address</span><span class="value">${10 + (seed%10)}.${seed%255}.${seed%255}.${seed%255}</span></div>
+            <div class="result-item"><span class="label">Last Known Location</span><span class="value">${loc}</span></div>
+            <div class="result-item"><span class="label">Device OS</span><span class="value">${system}</span></div>
+            <div class="result-item"><span class="label">Risk Score</span><span class="value ${riskClass}">${riskScore}/100</span></div>
+        `;
+    }
+
+    function resetPortal() {
+        document.getElementById('result-page').style.display = 'none';
+        document.getElementById('setup-view').style.display = 'block';
+        document.getElementById('target-id').value = '';
+        document.getElementById('fill').style.width = '0%';
+        document.getElementById('terminal').innerHTML = '';
+    }
+</script>
+
+</body>
+  </html>
