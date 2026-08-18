@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Suliyman Intelligence — Investigation Demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">SI</div><div><b>SULIYMAN</b><small>INTELLIGENCE</small></div></div>
+      <div class="case-box"><span>CASE</span><strong>DEMO-2026-0818</strong><em>AUTHORIZED DEMO</em></div>
+      <nav>
+        <button class="nav active" data-view="overview">◈ <span>Overview</span></button>
+        <button class="nav" data-view="identity">◎ <span>Identity</span></button>
+        <button class="nav" data-view="communications">◌ <span>Communications</span></button>
+        <button class="nav" data-view="device">▣ <span>Device Evidence</span></button>
+        <button class="nav" data-view="network">⌁ <span>Network & OSINT</span></button>
+        <button class="nav" data-view="timeline">◷ <span>Timeline</span></button>
+      </nav>
+      <div class="sidebar-foot"><span class="dot"></span> DEMO ENGINE ONLINE</div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div><span class="eyebrow">INVESTIGATION CONSOLE</span><h1 id="pageTitle">Case Overview</h1></div>
+        <div class="top-actions"><span class="legal">SIMULATION / NO LIVE EXTRACTION</span><button id="runDemo" class="primary">Run Demo Analysis</button></div>
+      </header>
+
+      <section id="overview" class="view active">
+        <div class="hero card">
+          <div><div class="kicker">DIGITAL INVESTIGATION WORKSPACE</div><h2>Evidence, identity and infrastructure — in one view.</h2><p>This interface demonstrates how authorized evidence can be organized, correlated and reported. All records in this demo are synthetic.</p></div>
+          <div class="score-ring"><span>RISK</span><b id="riskScore">72</b><small>/100</small></div>
+        </div>
+        <div class="stats">
+          <div class="stat card"><span>IDENTITY RECORDS</span><b>08</b><i>synthetic</i></div>
+          <div class="stat card"><span>COMMUNICATION EVENTS</span><b>24</b><i>synthetic</i></div>
+          <div class="stat card"><span>DEVICE ARTIFACTS</span><b>37</b><i>synthetic</i></div>
+          <div class="stat card"><span>NETWORK INDICATORS</span><b>11</b><i>synthetic</i></div>
+        </div>
+        <div class="grid-2">
+          <div class="card"><div class="card-head"><h3>Investigation Summary</h3><span class="badge cyan">DEMO</span></div>
+            <div class="rows">
+              <div><span>Target reference</span><strong>DEMO-TARGET-7355</strong></div>
+              <div><span>Evidence source</span><strong>Authorized device image (simulated)</strong></div>
+              <div><span>Acquisition status</span><strong class="ok">● Completed</strong></div>
+              <div><span>Correlation status</span><strong class="ok">● 91% matched</strong></div>
+            </div>
+          </div>
+          <div class="card"><div class="card-head"><h3>Activity Feed</h3><span class="live"><i></i>LIVE DEMO</span></div><div id="feed" class="feed"></div></div>
+        </div>
+      </section>
+
+      <section id="identity" class="view">
+        <div class="section-title"><div><span class="kicker">SUBJECT PROFILE</span><h2>Identity Intelligence</h2></div><span class="badge green">CORRELATED</span></div>
+        <div class="grid-3">
+          <div class="card profile"><div class="avatar">DS</div><h3>Demo Subject</h3><p class="muted">Synthetic identity record</p><div class="risk-line"><span>Risk</span><b>72 / 100</b></div></div>
+          <div class="card"><div class="card-head"><h3>Core Attributes</h3></div><div class="rows"><div><span>Reference ID</span><strong>7355-DEMO</strong></div><div><span>Region</span><strong>Uttar Pradesh, IN</strong></div><div><span>Device class</span><strong>Android / simulated</strong></div><div><span>Account count</span><strong>6</strong></div></div></div>
+          <div class="card"><div class="card-head"><h3>Confidence</h3></div><div class="meter"><span style="width:91%"></span></div><h2>91%</h2><p class="muted">Correlation confidence across synthetic records.</p></div>
+        </div>
+      </section>
+
+      <section id="communications" class="view">
+        <div class="section-title"><div><span class="kicker">EVIDENCE MODULE</span><h2>Communications</h2></div><span class="badge amber">SIMULATED ARTIFACTS</span></div>
+        <div class="card"><div class="toolbar"><input id="msgSearch" placeholder="Search synthetic messages..."><select id="appFilter"><option>All sources</option><option>WhatsApp</option><option>SMS</option><option>Instagram</option></select></div><div id="messages" class="message-list"></div></div>
+      </section>
+
+      <section id="device" class="view">
+        <div class="section-title"><div><span class="kicker">FORENSIC VIEW</span><h2>Device Evidence</h2></div><span class="badge cyan">READ-ONLY DEMO</span></div>
+        <div class="grid-2">
+          <div class="card"><div class="card-head"><h3>Device Profile</h3></div><div class="device-visual">▣<strong>Android Device</strong><small>SIMULATED IMAGE</small></div><div class="rows"><div><span>OS</span><strong>Android 14</strong></div><div><span>Model</span><strong>Demo Galaxy S24</strong></div><div><span>Evidence hash</span><strong>SHA-256 ••••8A91</strong></div></div></div>
+          <div class="card"><div class="card-head"><h3>Artifact Inventory</h3></div><div id="artifacts" class="artifact-grid"></div></div>
+        </div>
+      </section>
+
+      <section id="network" class="view">
+        <div class="section-title"><div><span class="kicker">OSINT + INFRASTRUCTURE</span><h2>Network Intelligence</h2></div><span class="badge green">ANALYZED</span></div>
+        <div class="grid-2">
+          <div class="card"><div class="card-head"><h3>Indicators</h3></div><div id="indicators" class="indicator-list"></div></div>
+          <div class="card"><div class="card-head"><h3>Relationship Graph</h3></div><div class="graph"><div class="node center">TARGET</div><div class="node n1">ACCOUNT</div><div class="node n2">DOMAIN</div><div class="node n3">DEVICE</div><div class="node n4">EMAIL</div><div class="line l1"></div><div class="line l2"></div><div class="line l3"></div><div class="line l4"></div></div></div>
+        </div>
+      </section>
+
+      <section id="timeline" class="view">
+        <div class="section-title"><div><span class="kicker">EVENT CORRELATION</span><h2>Evidence Timeline</h2></div><span class="badge cyan">SYNTHETIC</span></div>
+        <div class="card"><div id="timelineList" class="timeline"></div></div>
+      </section>
+    </main>
+  </div>
+  <div id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
